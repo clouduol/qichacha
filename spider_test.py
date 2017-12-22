@@ -33,7 +33,7 @@ if __name__=="__main__":
     partial_urls=re.findall(re_firm, r.text)
     if len(partial_urls) == 0:
         print("no firm matched")
-        exit
+        exit()
     firm_url="http://"+host+partial_urls[0]
     print(firm_url)
 
