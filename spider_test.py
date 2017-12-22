@@ -25,30 +25,40 @@ if __name__=="__main__":
     s.headers.update(headers)
     s.cookies=cookiejar
 
+    infos = {"time":"", "phone":"", "email":"", "address":"", "industry":""}
     # search firm name
     r=s.get('http://www.qichacha.com/search?key=北京极地加科技有限公司')
-    # print(r.text)
+    #print(r.text)
 
-    re_firm=r'a href="(/firm.*)" target="_blank" class="ma_h1"'
-    partial_urls=re.findall(re_firm, r.text)
-    if len(partial_urls) == 0:
+    soup=BeautifulSoup(r.text, "lxml")
+    table=soup.find('table', class_="m_srchList")
+    td=table.find('tbody').find('tr').find('td').find_next_sibling()
+    partial_url=td.find('a')["href"]
+    current_p=td.find('p')
+    span_time=current_p.find('span').find_next_sibling()
+    infos["time"]=span_time.string.split("：")[1].strip("\n ")
+    #current_p=current_p.find_next_sibling()
+    #infos["phone"]=current_p.string.split("：")[1].strip("\n ")
+    #infos["email"]=current_p.find('span').string("：")[1].strip("\n ")
+    #current_p=current_p.find_next_sibling()
+
+    #re_firm=r'a href="(/firm.*?)" target="_blank" class="ma_h1"'
+    #partial_urls=re.findall(re_firm, r.text)
+    #if len(partial_urls) == 0:
+    #    print("no firm matched")
+    #    exit()
+    #firm_url="http://"+host+partial_urls[0]
+    if partial_url == None:
         print("no firm matched")
         exit()
-    firm_url="http://"+host+partial_urls[0]
+    firm_url="http://"+host+partial_url
     print(firm_url)
 
     # get firm info page
-    infos = {"time":"", "phone":"", "email":"", "address":"", "industry":""}
     r=s.get(firm_url)
     # print(r.text)
     soup=BeautifulSoup(r.text,"lxml")
     # first block
-    span_phone=soup.find('span', text="电话：")
-    infos["phone"]=span_phone.find_next_sibling().find_next().string.strip("\n ")
-    span_email=soup.find('span', text="邮箱：")
-    infos["email"]=span_email.find_next_sibling().find_next().string.strip("\n ")
-    span_address=soup.find('span', text="地址：")
-    infos["address"]=span_address.find_next_sibling().find_next().string.strip("\n ")
 #    div=soup.find('div', class_='content')
 #    spans=div.find_all('span', recursive=True)
 #    for span in spans:
@@ -58,12 +68,34 @@ if __name__=="__main__":
 #            infos["email"]=span.find_next_sibling().find_next().string.strip("\n ")
 #        if span.string == "地址：":
 #            infos["address"]=span.find_next_sibling().find_next().string.strip("\n ")
-
+    span_phone=soup.find('span', text="电话：")
+    strtmp=span_phone.find_next_sibling().find_next().string
+    if strtmp != None:
+        strtmp = strtmp.strip("\n ")
+    infos["phone"]=strtmp
+    span_email=soup.find('span', text="邮箱：")
+    strtmp=span_email.find_next_sibling().find_next().string
+    if strtmp != None:
+        strtmp = strtmp.strip("\n ")
+    infos["email"]=strtmp
+    span_address=soup.find('span', text="地址：")
+    strtmp=span_address.find_next_sibling().find_next().string
+    if strtmp != None:
+        strtmp = strtmp.strip("\n ")
+    infos["address"]=strtmp
     # second block
     td_time=soup.find('td', text=re.compile(r"成立日期"))
-    infos["time"]=td_time.find_next_sibling().string.strip("\n ")
+    if td_time != None:
+        strtmp=td_time.find_next_sibling().find_next().string
+        if strtmp != None:
+            strtmp = strtmp.strip("\n ")
+        infos["time"]=strtmp
     td_address=soup.find('td', text=re.compile(r"所属行业"))
-    infos["industry"]=td_address.find_next_sibling().string.strip("\n ")
+    if td_address != None:
+        strtmp=td_address.find_next_sibling().find_next().string
+        if strtmp != None:
+            strtmp = strtmp.strip("\n ")
+        infos["industry"]=strtmp
 
     print(infos)
 
