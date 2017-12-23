@@ -26,7 +26,7 @@ def get_infos(s,firm_name):
     try:
 	    search_url='http://www.qichacha.com/search?key='+firm_name
 	    # search firm name
-	    time.sleep(random.randint(1,5))
+	    time.sleep(random.randint(5,10))
 	    r=s.get(search_url)
 	    # print(r.text)
 	
@@ -56,7 +56,7 @@ def get_infos(s,firm_name):
 	    firm_url="http://"+host+partial_url
 	
 	    # get firm info page
-	    time.sleep(random.randint(1,5))
+	    time.sleep(random.randint(5,10))
 	    r=s.get(firm_url)
 	    # print(r.text)
 	    soup=BeautifulSoup(r.text,"lxml")
@@ -112,7 +112,7 @@ if __name__=="__main__":
     wb = load_workbook('data/sheet1.xlsx')
     sheet = wb.active
     
-    begin = 51
+    begin = 101
     end = 1622
     #count = 1622
     #count = 22
