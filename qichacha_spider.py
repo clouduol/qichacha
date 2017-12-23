@@ -108,10 +108,15 @@ if __name__=="__main__":
     s=requests.session()
     s.headers.update(headers)
     s.cookies=cookiejar
+
+    # params 
+    origin_sheet="data/sheet.xlsx"
+    save_sheet="data/sheet-save.xlsx"
     
-    wb = load_workbook('data/sheet1.xlsx')
+    wb = load_workbook(origin_sheet)
     sheet = wb.active
     
+    # params
     begin = 148
     end = 1622
     #count = 1622
@@ -145,4 +150,4 @@ if __name__=="__main__":
         cell = sheet.cell(row=r, column=9)
         cell.value = infos["industry"]
 	
-    wb.save('data/sheet1-save.xlsx')
+    wb.save(save_sheet)
