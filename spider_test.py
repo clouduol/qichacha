@@ -16,7 +16,7 @@ def get_cookie():
 
 if __name__=="__main__":
     host="www.qichacha.com"
-    headers = {'Accept-Encoding': 'gzip, deflate', 'Referer':'http://www.qichacha.com','Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8', 'Connection': 'keep-alive', 'Host': 'www.qichacha.com', 'Accept-Language': 'zh-CN,zh;q=0.9', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36'}
+    headers = {'X-Forwarded-For':'104.236.170.168','Accept-Encoding': 'gzip, deflate', 'Referer':'http://www.qichacha.com','Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8', 'Connection': 'keep-alive', 'Host': 'www.qichacha.com', 'Accept-Language': 'zh-CN,zh;q=0.9', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36'}
     cookies = get_cookie()
     # convert cookies dict to RequestsCookieJar object
     cookiejar=requests.utils.cookiejar_from_dict(cookies)
@@ -28,7 +28,7 @@ if __name__=="__main__":
     infos = {"time":"", "phone":"", "email":"", "address":"", "industry":""}
     # search firm name
     r=s.get('http://www.qichacha.com/search?key=北京极地加科技有限公司')
-    print(r.text)
+    #print(r.text)
 
     soup=BeautifulSoup(r.text, "lxml")
     table=soup.find('table', class_="m_srchList")
