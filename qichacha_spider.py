@@ -111,11 +111,13 @@ if __name__=="__main__":
     wb = load_workbook('data/sheet1.xlsx')
     sheet = wb.active
     
-    count = 1622
+    begin = 51
+    end = 1622
+    #count = 1622
     #count = 22
     c = 2 
 	
-    for r in range(3,count+1):
+    for r in range(begin,end+1):
         name = sheet.cell(row=r, column=c)
         #if r%50 == 0:
         print("row"+str(r)+": "+name.value)
