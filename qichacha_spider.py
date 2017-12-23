@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from openpyxl import load_workbook
 import time
 import traceback
+import random
 
 # convert cookies to dict
 # copy valid cookies form browser to data/cookies first
@@ -25,7 +26,7 @@ def get_infos(s,firm_name):
     try:
 	    search_url='http://www.qichacha.com/search?key='+firm_name
 	    # search firm name
-	    time.sleep(3)
+	    time.sleep(random.randint(1,5))
 	    r=s.get(search_url)
 	    # print(r.text)
 	
@@ -55,7 +56,7 @@ def get_infos(s,firm_name):
 	    firm_url="http://"+host+partial_url
 	
 	    # get firm info page
-	    time.sleep(2)
+	    time.sleep(random.randint(1,5))
 	    r=s.get(firm_url)
 	    # print(r.text)
 	    soup=BeautifulSoup(r.text,"lxml")
