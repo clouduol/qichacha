@@ -117,8 +117,8 @@ if __name__=="__main__":
     sheet = wb.active
     
     # params
-    begin = 148
-    end = 1622
+    begin = 3
+    end = 10
     #count = 1622
     #count = 22
     c = 2 
@@ -149,5 +149,6 @@ if __name__=="__main__":
 	    # industry
         cell = sheet.cell(row=r, column=9)
         cell.value = infos["industry"]
-	
-    wb.save(save_sheet)
+
+        # one result, write once
+        wb.save(save_sheet)
